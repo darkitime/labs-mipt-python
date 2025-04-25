@@ -9,14 +9,10 @@ signal_files = [
     'signal03.dat'
 ]
 
-# Скользящее среднее назад во времени (ширина окна 10)
+# Скользящее среднее назад во времени (ширина окна 10) изменил
 def smooth_signal(data, window=10):
-    smoothed = []
-    for i in range(len(data)):
-        start = max(0, i - window + 1)
-        avg = np.mean(data[start:i+1])
-        smoothed.append(avg)
-    return np.array(smoothed)
+    kernel = np.ones(window) / window
+    return np.convolve(data, kernel, mode='full')[:len(data)]
 
 # Обработка всех сигналов
 for file in signal_files:
